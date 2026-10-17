@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StandLand — Приватный сервер Standoff 2</title>
+    <title>StandLand Halloween — Приватный сервер Standoff 2</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -17,254 +17,313 @@
                 extend: {
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
+                        spooky: ['Creepster', 'cursive'],
                     },
                     colors: {
-                        brand: {
-                            orange: '#ff5500',
-                            red: '#e63946',
-                            dark: '#0e0f12',
-                            card: '#16181d',
-                            accent: '#ff7700',
+                        halloween: {
+                            orange: '#ff6600',
+                            darkOrange: '#cc4400',
+                            purple: '#6b21a8',
+                            darkPurple: '#2e1065',
+                            night: '#0a0512',
+                            card: '#150c21',
+                            blood: '#990000'
                         }
                     },
                     boxShadow: {
-                        'neon-orange': '0 0 25px rgba(255, 85, 0, 0.5)',
-                        'neon-hover': '0 0 35px rgba(255, 119, 0, 0.8)',
+                        'spooky-orange': '0 0 25px rgba(255, 102, 0, 0.6)',
+                        'spooky-purple': '0 0 25px rgba(107, 33, 168, 0.7)',
+                        'spooky-glow': '0 0 35px rgba(255, 102, 0, 0.9)',
                     }
                 }
             }
         }
     </script>
+
     <style>
         body {
-            background-color: #0e0f12;
+            background-color: #0a0512;
             color: #ffffff;
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
         }
         
-        /* Custom scrollbar */
+        /* Custom Halloween Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0e0f12;
+            background: #0a0512;
         }
         ::-webkit-scrollbar-thumb {
-            background: #ff5500;
+            background: #ff6600;
             border-radius: 4px;
         }
 
-        .glow-text {
-            text-shadow: 0 0 15px rgba(255, 85, 0, 0.6);
+        .glow-orange {
+            text-shadow: 0 0 15px rgba(255, 102, 0, 0.8), 0 0 25px rgba(255, 102, 0, 0.4);
         }
 
-        .glass-panel {
-            background: rgba(22, 24, 29, 0.75);
+        .spooky-panel {
+            background: rgba(21, 12, 33, 0.85);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 102, 0, 0.2);
         }
 
-        .gradient-overlay {
-            background: linear-gradient(180deg, rgba(14, 15, 18, 0.4) 0%, rgba(14, 15, 18, 1) 100%);
+        .spooky-panel:hover {
+            border-color: rgba(255, 102, 0, 0.6);
+        }
+
+        .gradient-halloween {
+            background: linear-gradient(180deg, rgba(10, 5, 18, 0.3) 0%, rgba(10, 5, 18, 1) 100%);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Bat pulse */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        .spooky-bg-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-orange selection:text-white flex flex-col min-h-screen">
+<body class="antialiased selection:bg-halloween-orange selection:text-black flex flex-col min-h-screen relative">
 
-    <!-- Navigation Bar -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-panel transition-all duration-300" id="navbar">
+    <!-- Background Spooky Glows -->
+    <div class="fixed top-20 left-10 w-96 h-96 bg-halloween-purple/30 rounded-full blur-3xl pointer-events-none spooky-bg-glow"></div>
+    <div class="fixed bottom-20 right-10 w-96 h-96 bg-halloween-orange/20 rounded-full blur-3xl pointer-events-none spooky-bg-glow"></div>
+
+    <header class="fixed top-0 left-0 right-0 z-50 spooky-panel transition-all duration-300 border-b border-halloween-orange/20" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo -->
+            <!-- Logo with user's actual game icon -->
             <a href="#" class="flex items-center space-x-3 group">
-                <div class="w-10 h-10 bg-gradient-to-tr from-brand-orange to-amber-500 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-neon-orange group-hover:scale-105 transition-transform">
-                    SL
+                <div class="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-halloween-orange shadow-spooky-orange group-hover:scale-105 transition-transform bg-black">
+                    <img src="./photo_2026-10-17_19-29-49.jpg" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/100x100/2e1065/ff6600?text=SL';" 
+                         alt="StandLand Icon" 
+                         class="w-full h-full object-cover">
                 </div>
-                <span class="text-2xl font-black tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-brand-orange">
-                    Stand<span class="text-brand-orange">Land</span>
-                </span>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-amber-200 to-halloween-orange">
+                        Stand<span class="text-halloween-orange">Land</span>
+                    </span>
+                    <span class="text-[10px] tracking-widest text-halloween-orange font-bold font-spooky -mt-1">🎃 HALLOWEEN EVENT</span>
+                </div>
             </a>
 
-            <!-- Desktop Menu -->
-            <nav class="hidden md:flex items-center space-x-8 font-semibold text-sm uppercase tracking-wider">
-                <a href="#about" class="text-gray-300 hover:text-brand-orange transition-colors">О сервере</a>
-                <a href="#features" class="text-gray-300 hover:text-brand-orange transition-colors">Фичи</a>
-                <a href="#gallery" class="text-gray-300 hover:text-brand-orange transition-colors">Галерея</a>
-                <a href="#faq" class="text-gray-300 hover:text-brand-orange transition-colors">FAQ</a>
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 font-bold text-xs uppercase tracking-widest">
+                <a href="#about" class="text-gray-300 hover:text-halloween-orange transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-ghost text-halloween-orange"></i> О сервере
+                </a>
+                <a href="#features" class="text-gray-300 hover:text-halloween-orange transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-halloween-orange"></i> Фичи
+                </a>
+                <a href="#gallery" class="text-gray-300 hover:text-halloween-orange transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-images text-halloween-orange"></i> Галерея
+                </a>
+                <a href="#faq" class="text-gray-300 hover:text-halloween-orange transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-skull text-halloween-orange"></i> FAQ
+                </a>
             </nav>
 
-            <!-- Download Nav Button -->
+            <!-- Download Header Button -->
             <div class="hidden md:block">
-                <a href="#download" class="px-6 py-2.5 bg-gradient-to-r from-brand-orange to-amber-600 hover:from-amber-600 hover:to-brand-orange text-white font-bold rounded-xl shadow-neon-orange hover:shadow-neon-hover transition-all transform hover:-translate-y-0.5 text-sm uppercase tracking-wider inline-flex items-center gap-2">
-                    <i class="fa-solid fa-download"></i>
-                    <span>Скачать</span>
+                <a href="#download" class="px-6 py-2.5 bg-gradient-to-r from-halloween-orange to-halloween-darkOrange hover:from-halloween-darkOrange hover:to-halloween-orange text-white font-extrabold rounded-xl shadow-spooky-orange hover:shadow-spooky-glow transition-all transform hover:-translate-y-0.5 text-xs uppercase tracking-wider inline-flex items-center gap-2 border border-halloween-orange/50">
+                    <i class="fa-solid fa-download animate-bounce"></i>
+                    <span>Скачать APK</span>
                 </a>
             </div>
 
             <!-- Mobile Hamburger Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-2">
-                <i class="fa-solid fa-bars text-2xl"></i>
+            <button id="mobile-menu-btn" class="md:hidden text-halloween-orange focus:outline-none p-2 text-2xl">
+                <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-gray-800 px-4 pt-4 pb-6 space-y-4">
-            <a href="#about" class="block text-gray-300 hover:text-brand-orange font-semibold py-2">О сервере</a>
-            <a href="#features" class="block text-gray-300 hover:text-brand-orange font-semibold py-2">Фичи</a>
-            <a href="#gallery" class="block text-gray-300 hover:text-brand-orange font-semibold py-2">Галерея</a>
-            <a href="#faq" class="block text-gray-300 hover:text-brand-orange font-semibold py-2">FAQ</a>
-            <a href="#download" class="block w-full text-center px-6 py-3 bg-brand-orange text-white font-bold rounded-xl shadow-neon-orange">
-                <i class="fa-solid fa-download mr-2"></i>Скачать APK
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden spooky-panel border-t border-halloween-orange/30 px-4 pt-4 pb-6 space-y-4">
+            <a href="#about" class="block text-gray-200 hover:text-halloween-orange font-bold py-2"><i class="fa-solid fa-ghost mr-2 text-halloween-orange"></i>О сервере</a>
+            <a href="#features" class="block text-gray-200 hover:text-halloween-orange font-bold py-2"><i class="fa-solid fa-wand-magic-sparkles mr-2 text-halloween-orange"></i>Фичи</a>
+            <a href="#gallery" class="block text-gray-200 hover:text-halloween-orange font-bold py-2"><i class="fa-solid fa-images mr-2 text-halloween-orange"></i>Галерея</a>
+            <a href="#faq" class="block text-gray-200 hover:text-halloween-orange font-bold py-2"><i class="fa-solid fa-skull mr-2 text-halloween-orange"></i>FAQ</a>
+            <a href="#download" class="block w-full text-center px-6 py-3 bg-halloween-orange text-white font-black rounded-xl shadow-spooky-orange">
+                <i class="fa-solid fa-download mr-2"></i>СКАЧАТЬ APK
             </a>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <!-- Background Banner Image with Fallback -->
-        <div class="absolute inset-0 z-0">
-            <img src="./images/banner.jpg" 
-                 onerror="this.onerror=null; this.src='https://placehold.co/1920x1080/16181d/ff5500?text=StandLand+Background';" 
-                 alt="StandLand Background" 
-                 class="w-full h-full object-cover object-center transform scale-105 filter brightness-50 contrast-125">
-            <div class="absolute inset-0 gradient-overlay"></div>
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden">
+        <!-- Spooky overlay background -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-b from-halloween-purple/40 via-halloween-night/80 to-halloween-night"></div>
         </div>
 
-        <!-- Hero Content -->
-        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center mt-10">
-            <span class="inline-block px-4 py-1.5 bg-brand-orange/20 border border-brand-orange/40 rounded-full text-brand-orange text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 animate-pulse">
-                🔥 Лучший приватный сервер Standoff 2
+        <!-- Hero Content Box -->
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center mt-6">
+            
+            <!-- Game Icon Badge in Hero -->
+            <div class="flex justify-center mb-6">
+                <div class="relative p-1 bg-gradient-to-b from-halloween-orange via-halloween-purple to-transparent rounded-3xl shadow-spooky-glow animate-float">
+                    <img src="./photo_2026-10-17_19-29-49.jpg" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/150x150/2e1065/ff6600?text=StandLand';" 
+                         alt="StandLand Logo Icon" 
+                         class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-2 border-black">
+                    <span class="absolute -top-3 -right-3 text-3xl">🎃</span>
+                    <span class="absolute -bottom-2 -left-2 text-2xl">🦇</span>
+                </div>
+            </div>
+
+            <!-- Banner Halloween Badge -->
+            <span class="inline-flex items-center gap-2 px-5 py-2 bg-halloween-purple/50 border border-halloween-orange/50 rounded-full text-halloween-orange text-xs sm:text-sm font-black uppercase tracking-widest mb-6 shadow-spooky-purple">
+                <i class="fa-solid fa-jack-o-lantern text-lg animate-pulse"></i>
+                ХЭЛЛОУИН ОБНОВЛЕНИЕ STANDLAND
+                <i class="fa-solid fa-crow text-lg"></i>
             </span>
+
             <h1 class="text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight mb-6 leading-none">
                 Добро пожаловать в <br>
-                <span class="bg-gradient-to-r from-brand-orange via-amber-400 to-brand-orange bg-clip-text text-transparent glow-text">
+                <span class="bg-gradient-to-r from-halloween-orange via-amber-400 to-halloween-orange bg-clip-text text-transparent glow-orange font-black">
                     StandLand
                 </span>
             </h1>
-            <p class="text-gray-300 text-lg sm:text-xl max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
-                Погрузись в любимую игру с бесплатными ножами, арканами, уникальными скинами, кастомными режимами и стабильным online 24/7!
+
+            <p class="text-gray-300 text-base sm:text-xl max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+                Погрузись в мистическую атмосферу! Все ножи, скины, секретные кейсы, кастомные Хэллоуин-режимы и отличный пинг уже ждут тебя 24/7!
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#download" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-brand-orange to-amber-600 hover:from-amber-500 hover:to-brand-orange text-white font-extrabold text-lg rounded-2xl shadow-neon-orange hover:shadow-neon-hover transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-download text-xl"></i>
+            <!-- Action Call Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+                <a href="#download" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-halloween-orange via-amber-500 to-halloween-orange hover:from-halloween-darkOrange hover:to-halloween-orange text-white font-black text-lg rounded-2xl shadow-spooky-orange hover:shadow-spooky-glow transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 border border-amber-300/40">
+                    <i class="fa-solid fa-spider text-xl"></i>
                     <span>CКАЧАТЬ APK</span>
                 </a>
-                <a href="#about" class="w-full sm:w-auto px-8 py-4 glass-panel hover:bg-white/10 text-white font-bold text-lg rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span>Узнать больше</span>
+                <a href="#about" class="w-full sm:w-auto px-8 py-4 spooky-panel hover:bg-halloween-purple/30 text-white font-bold text-lg rounded-2xl border border-halloween-orange/30 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-ghost"></i>
+                    <span>О Сервере</span>
                 </a>
             </div>
 
-            <!-- Stats Badge -->
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto mt-16 pt-8 border-t border-white/10">
-                <div class="p-4 rounded-xl glass-panel">
-                    <div class="text-2xl sm:text-3xl font-black text-brand-orange">100%</div>
-                    <div class="text-xs text-gray-400 font-semibold uppercase mt-1">Бесплатный инвентарь</div>
+            <!-- Stats Counters Badge -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto mt-14 pt-8 border-t border-halloween-orange/20">
+                <div class="p-4 rounded-2xl spooky-panel">
+                    <div class="text-2xl sm:text-3xl font-black text-halloween-orange">100% FREE</div>
+                    <div class="text-[11px] text-gray-400 font-bold uppercase mt-1">Все ножи и арканы</div>
                 </div>
-                <div class="p-4 rounded-xl glass-panel">
-                    <div class="text-2xl sm:text-3xl font-black text-brand-orange">60/120</div>
-                    <div class="text-xs text-gray-400 font-semibold uppercase mt-1">FPS Поддержка</div>
+                <div class="p-4 rounded-2xl spooky-panel">
+                    <div class="text-2xl sm:text-3xl font-black text-halloween-orange">120 FPS</div>
+                    <div class="text-[11px] text-gray-400 font-bold uppercase mt-1">Макс. плавность</div>
                 </div>
-                <div class="col-span-2 md:col-span-1 p-4 rounded-xl glass-panel">
-                    <div class="text-2xl sm:text-3xl font-black text-brand-orange">0ms</div>
-                    <div class="text-xs text-gray-400 font-semibold uppercase mt-1">Задержек и пинга</div>
+                <div class="col-span-2 md:col-span-1 p-4 rounded-2xl spooky-panel">
+                    <div class="text-2xl sm:text-3xl font-black text-halloween-orange">ONLINE</div>
+                    <div class="text-[11px] text-gray-400 font-bold uppercase mt-1">Сервера 24/7</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features / About Section -->
-    <section id="features" class="py-24 bg-brand-dark relative z-10">
+    <section id="features" class="py-20 relative z-10 border-t border-halloween-orange/10 bg-halloween-night/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight mb-4">
-                    Почему выбирают <span class="text-brand-orange">StandLand</span>?
+                    Фичи <span class="text-halloween-orange">StandLand</span> 🎃
                 </h2>
-                <p class="text-gray-400">Мы создали идеальные условия для комфортной игры без ограничений.</p>
+                <p class="text-gray-400">Лучшие условия для каждого игрока Standoff 2 без каких-либо взносов.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Feature Card 1 -->
-                <div class="glass-panel p-8 rounded-3xl border border-white/5 hover:border-brand-orange/40 transition-all group hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-brand-orange/10 rounded-2xl flex items-center justify-center text-brand-orange text-3xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                <!-- Feature 1 -->
+                <div class="spooky-panel p-8 rounded-3xl transition-all hover:-translate-y-2 relative overflow-hidden group">
+                    <div class="w-16 h-16 bg-halloween-orange/20 rounded-2xl flex items-center justify-center text-halloween-orange text-3xl mb-6 group-hover:scale-110 group-hover:bg-halloween-orange group-hover:text-black transition-all">
                         <i class="fa-solid fa-gem"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Все скины открыты</h3>
+                    <h3 class="text-xl font-black mb-3 text-white">Разблокированный Инвентарь</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">
-                        Не нужно донатить! Все ножи, перчатки, керамбиты, бабочки и редкие арканы уже доступны в вашем инвентаре с самого начала.
+                        Все керамбиты, бабочки, перчатки, тычковые ножи и самые редкие коллекционные скины доступны бесплатно сразу при входе.
                     </p>
                 </div>
 
-                <!-- Feature Card 2 -->
-                <div class="glass-panel p-8 rounded-3xl border border-white/5 hover:border-brand-orange/40 transition-all group hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-brand-orange/10 rounded-2xl flex items-center justify-center text-brand-orange text-3xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
-                        <i class="fa-solid fa-bolt"></i>
+                <!-- Feature 2 -->
+                <div class="spooky-panel p-8 rounded-3xl transition-all hover:-translate-y-2 relative overflow-hidden group">
+                    <div class="w-16 h-16 bg-halloween-orange/20 rounded-2xl flex items-center justify-center text-halloween-orange text-3xl mb-6 group-hover:scale-110 group-hover:bg-halloween-orange group-hover:text-black transition-all">
+                        <i class="fa-solid fa-hat-wizard"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Кастомные режимы</h3>
+                    <h3 class="text-xl font-black mb-3 text-white">Хэллоуин Ивенты</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">
-                        Уникальные серверные режимы, карты и механики, которых нет в оригинальной игре. Играй по своим правилам!
+                        Уникальные тематические карты, ночной режим, кастомное оружие и праздничные награды в стиле Хэллоуина!
                     </p>
                 </div>
 
-                <!-- Feature Card 3 -->
-                <div class="glass-panel p-8 rounded-3xl border border-white/5 hover:border-brand-orange/40 transition-all group hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-brand-orange/10 rounded-2xl flex items-center justify-center text-brand-orange text-3xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                <!-- Feature 3 -->
+                <div class="spooky-panel p-8 rounded-3xl transition-all hover:-translate-y-2 relative overflow-hidden group">
+                    <div class="w-16 h-16 bg-halloween-orange/20 rounded-2xl flex items-center justify-center text-halloween-orange text-3xl mb-6 group-hover:scale-110 group-hover:bg-halloween-orange group-hover:text-black transition-all">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Оптимизация и Защита</h3>
+                    <h3 class="text-xl font-black mb-3 text-white">Защита и Оптимизация</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">
-                        Стабильный FPS даже на слабых устройствах, отсутствие вылетов, защищенные серверы и мощный античит.
+                        Мощный античит, мгновенный отклики, поддержка 120 FPS и стабильная работа даже на слабых смартфонах.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-24 bg-brand-card/50 relative">
+    <section id="gallery" class="py-20 relative bg-halloween-card/60 border-t border-halloween-orange/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-halloween-orange text-4xl">📸</span>
                 <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight mb-4">
-                    Скриншоты из <span class="text-brand-orange">игры</span>
+                    Скриншоты <span class="text-halloween-orange">из игры</span>
                 </h2>
-                <p class="text-gray-400">Взгляните на интерфейс, ножи и геймплей нашего приватного сервера StandLand.</p>
+                <p class="text-gray-400">Взгляни на реальный геймплей и интерфейс нашего приватного сервера StandLand!</p>
             </div>
 
-            <!-- Screenshot Grid -->
-            <!-- NOTE: Place images with these filenames into your repository folder 'images/' -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Screenshot Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 
-                <!-- Image 1 -->
-                <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-lg cursor-pointer transform transition duration-300 hover:scale-[1.02]" onclick="openModal('./images/screen1.jpg')">
-                    <img src="./images/screen1.jpg" 
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/16181d/ff5500?text=StandLand+Screen+1';" 
-                         alt="StandLand Gameplay 1" 
-                         class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                        <span class="text-white font-bold text-sm"><i class="fa-solid fa-magnifying-glass-plus mr-2"></i>Увеличить</span>
+                <!-- Game Screenshot 1 -->
+                <div class="group relative rounded-3xl overflow-hidden spooky-panel border-2 border-halloween-orange/30 shadow-spooky-purple cursor-pointer transform transition duration-300 hover:scale-[1.02] hover:border-halloween-orange" onclick="openModal('./Screenshot_1.png')">
+                    <div class="relative h-64 sm:h-80 overflow-hidden bg-black/50">
+                        <img src="./Screenshot_1.png" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x450/150c21/ff6600?text=Screenshot_1.png';" 
+                             alt="StandLand Gameplay Screenshot 1" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-4 bg-halloween-night/90 flex items-center justify-between border-t border-halloween-orange/20">
+                        <span class="font-bold text-sm text-gray-200 flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad text-halloween-orange"></i> Screenshot_1.png
+                        </span>
+                        <span class="text-xs px-3 py-1 bg-halloween-orange/20 text-halloween-orange font-bold rounded-lg uppercase">
+                            <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Нажми для просмотра
+                        </span>
                     </div>
                 </div>
 
-                <!-- Image 2 -->
-                <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-lg cursor-pointer transform transition duration-300 hover:scale-[1.02]" onclick="openModal('./images/screen2.jpg')">
-                    <img src="./images/screen2.jpg" 
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/16181d/ff5500?text=StandLand+Screen+2';" 
-                         alt="StandLand Gameplay 2" 
-                         class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                        <span class="text-white font-bold text-sm"><i class="fa-solid fa-magnifying-glass-plus mr-2"></i>Увеличить</span>
+                <!-- Game Screenshot 2 -->
+                <div class="group relative rounded-3xl overflow-hidden spooky-panel border-2 border-halloween-orange/30 shadow-spooky-purple cursor-pointer transform transition duration-300 hover:scale-[1.02] hover:border-halloween-orange" onclick="openModal('./Screenshot_2.png')">
+                    <div class="relative h-64 sm:h-80 overflow-hidden bg-black/50">
+                        <img src="./Screenshot_2.png" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x450/150c21/ff6600?text=Screenshot_2.png';" 
+                             alt="StandLand Gameplay Screenshot 2" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
-                </div>
-
-                <!-- Image 3 -->
-                <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-lg cursor-pointer transform transition duration-300 hover:scale-[1.02]" onclick="openModal('./images/screen3.jpg')">
-                    <img src="./images/screen3.jpg" 
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/16181d/ff5500?text=StandLand+Screen+3';" 
-                         alt="StandLand Gameplay 3" 
-                         class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                        <span class="text-white font-bold text-sm"><i class="fa-solid fa-magnifying-glass-plus mr-2"></i>Увеличить</span>
+                    <div class="p-4 bg-halloween-night/90 flex items-center justify-between border-t border-halloween-orange/20">
+                        <span class="font-bold text-sm text-gray-200 flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad text-halloween-orange"></i> Screenshot_2.png
+                        </span>
+                        <span class="text-xs px-3 py-1 bg-halloween-orange/20 text-halloween-orange font-bold rounded-lg uppercase">
+                            <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Нажми для просмотра
+                        </span>
                     </div>
                 </div>
 
@@ -272,133 +331,135 @@
         </div>
     </section>
 
-    <!-- Download Box Section -->
-    <section id="download" class="py-24 bg-brand-dark relative overflow-hidden">
-        <!-- Glow accents -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none"></div>
-
+    <section id="download" class="py-24 relative overflow-hidden bg-halloween-night border-t border-halloween-orange/20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-brand-orange/30 shadow-2xl text-center">
+            <div class="spooky-panel rounded-3xl p-8 sm:p-12 border-2 border-halloween-orange shadow-spooky-glow text-center relative overflow-hidden">
                 
-                <div class="inline-flex p-4 bg-brand-orange/10 rounded-2xl text-brand-orange text-4xl mb-6">
-                    <i class="fa-android fab"></i>
+                <!-- Floating Spooky Icons -->
+                <div class="absolute top-4 left-4 text-3xl opacity-30">🎃</div>
+                <div class="absolute bottom-4 right-4 text-3xl opacity-30">🦇</div>
+
+                <!-- Game Icon Avatar -->
+                <div class="inline-block p-1.5 bg-gradient-to-tr from-halloween-orange to-halloween-purple rounded-3xl mb-6 shadow-spooky-orange">
+                    <img src="./photo_2026-10-17_19-29-49.jpg" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/120x120/2e1065/ff6600?text=StandLand';" 
+                         alt="StandLand App Icon" 
+                         class="w-24 h-24 rounded-2xl object-cover border-2 border-black">
                 </div>
 
-                <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight mb-4">
-                    Скачать <span class="text-brand-orange">StandLand APK</span>
+                <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight mb-3">
+                    Cкачать <span class="text-halloween-orange">StandLand APK</span> 
                 </h2>
                 <p class="text-gray-300 max-w-xl mx-auto mb-8 text-sm sm:text-base">
-                    Загрузи актуальную версию приватного сервера на свой Android-телефон или эмулятор ПК прямо сейчас!
+                    Скачай последнее Хэллоуинское обновление приватного сервера на свой Android телефон или ПК эмулятор прямо сейчас!
                 </p>
 
-                <!-- File info badges -->
-                <div class="flex flex-wrap items-center justify-center gap-4 mb-8 text-xs font-semibold uppercase tracking-wider text-gray-400">
-                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10"><i class="fa-solid fa-code-branch mr-2 text-brand-orange"></i>Версия: 2.1.0</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10"><i class="fa-solid fa-hdd mr-2 text-brand-orange"></i>Размер: ~1.2 GB</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10"><i class="fa-brands fa-android mr-2 text-brand-orange"></i>Android 7.0+</span>
+                <!-- File Info Pills -->
+                <div class="flex flex-wrap items-center justify-center gap-3 mb-8 text-xs font-bold uppercase tracking-wider text-gray-300">
+                    <span class="px-3.5 py-2 rounded-xl bg-halloween-purple/40 border border-halloween-orange/30"><i class="fa-solid fa-code-branch mr-1.5 text-halloween-orange"></i>Версия: Halloween v2.1</span>
+                    <span class="px-3.5 py-2 rounded-xl bg-halloween-purple/40 border border-halloween-orange/30"><i class="fa-solid fa-box-archive mr-1.5 text-halloween-orange"></i>Формат: APK</span>
+                    <span class="px-3.5 py-2 rounded-xl bg-halloween-purple/40 border border-halloween-orange/30"><i class="fa-brands fa-android mr-1.5 text-halloween-orange"></i>Android 7.0+</span>
                 </div>
 
-                <!-- MAIN DOWNLOAD BUTTON -->
-                <!-- Make sure 'standland.apk' exists in your repo root or adjust the href path -->
-                <a href="./standland.apk" download="StandLand.apk" class="inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-brand-orange via-amber-500 to-brand-orange hover:from-amber-600 hover:to-brand-orange text-white font-black text-xl rounded-2xl shadow-neon-orange hover:shadow-neon-hover transition-all transform hover:scale-105 uppercase tracking-wider w-full sm:w-auto">
-                    <i class="fa-solid fa-download text-2xl"></i>
+                <!-- DOWNLOAD APK BUTTON -->
+                <a href="./standland.apk" download="StandLand.apk" class="inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-halloween-orange via-amber-500 to-halloween-orange hover:from-halloween-darkOrange hover:to-halloween-orange text-white font-black text-xl rounded-2xl shadow-spooky-glow transition-all transform hover:scale-105 uppercase tracking-wider w-full sm:w-auto border border-amber-300/50">
+                    <i class="fa-solid fa-file-arrow-down text-3xl"></i>
                     <span>CКАЧАТЬ STANDLAND.APK</span>
                 </a>
 
-                <p class="text-xs text-gray-500 mt-6">
-                    * Перед установкой разрешите в настройках телефона «Установку из неизвестных источников».
+                <p class="text-xs text-gray-400 mt-6">
+                    ⚠️ *Перед установкой разрешите в настройках телефона «Установку из неизвестных источников».
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="py-20 bg-brand-card/30 border-t border-white/5">
+    <section id="faq" class="py-20 bg-halloween-card/40 border-t border-halloween-orange/20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-black uppercase text-center mb-12">
-                Часто задаваемые <span class="text-brand-orange">вопросы</span>
+                Вопросы и <span class="text-halloween-orange">Ответы</span> 💀
             </h2>
 
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
-                <div class="glass-panel rounded-2xl p-6 border border-white/5">
+                <div class="spooky-panel rounded-2xl p-6 border border-halloween-orange/20">
                     <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-3">
-                        <i class="fa-solid fa-circle-question text-brand-orange"></i>
-                        Нужен ли Root для установки?
+                        <i class="fa-solid fa-skull text-halloween-orange"></i>
+                        Как установить APK файл?
                     </h3>
-                    <p class="text-gray-400 text-sm leading-relaxed pl-7">
-                        Нет! StandLand устанавливается как обычное приложение (APK) и не требует Рут-прав или модификации системы.
+                    <p class="text-gray-300 text-sm leading-relaxed pl-7">
+                        Скачайте файл `StandLand.apk`, нажмите на него в файловом менеджере и разрешите установку из неизвестных источников.
                     </p>
                 </div>
 
                 <!-- FAQ Item 2 -->
-                <div class="glass-panel rounded-2xl p-6 border border-white/5">
+                <div class="spooky-panel rounded-2xl p-6 border border-halloween-orange/20">
                     <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-3">
-                        <i class="fa-solid fa-circle-question text-brand-orange"></i>
+                        <i class="fa-solid fa-ghost text-halloween-orange"></i>
                         Нужно ли удалять оригинальный Standoff 2?
                     </h3>
-                    <p class="text-gray-400 text-sm leading-relaxed pl-7">
-                        Нет, наш приватный сервер работает отдельно. Вы можете спокойно держать на телефоне и оригинальную игру, и StandLand.
+                    <p class="text-gray-300 text-sm leading-relaxed pl-7">
+                        Нет! StandLand работает независимо и не заменяет оригинальную игру. На смартфоне могут играть оба клиента.
                     </p>
                 </div>
 
                 <!-- FAQ Item 3 -->
-                <div class="glass-panel rounded-2xl p-6 border border-white/5">
+                <div class="spooky-panel rounded-2xl p-6 border border-halloween-orange/20">
                     <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-3">
-                        <i class="fa-solid fa-circle-question text-brand-orange"></i>
-                        Забанят ли мой основной аккаунт?
+                        <i class="fa-solid fa-shield-cat text-halloween-orange"></i>
+                        Безопасно ли это для моего аккаунта?
                     </h3>
-                    <p class="text-gray-400 text-sm leading-relaxed pl-7">
-                        Нет, так как StandLand использует полностью изолированные серверы и не связан с серверами Axlebolt.
+                    <p class="text-gray-300 text-sm leading-relaxed pl-7">
+                        Абсолютно. Приватный сервер StandLand использует собственную базу данных и полностью изолированные серверы.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-black py-12 border-t border-white/10 mt-auto">
+    <footer class="bg-black py-12 border-t border-halloween-orange/30 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center font-black text-sm text-white">
-                    SL
-                </div>
+                <img src="./photo_2026-10-17_19-29-49.jpg" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/40x40/2e1065/ff6600?text=SL';" 
+                     alt="StandLand Icon" 
+                     class="w-9 h-9 rounded-lg object-cover border border-halloween-orange">
                 <span class="text-lg font-black uppercase tracking-wider">
-                    Stand<span class="text-brand-orange">Land</span>
+                    Stand<span class="text-halloween-orange">Land</span>
                 </span>
             </div>
 
             <p class="text-gray-500 text-xs text-center md:text-left">
-                &copy; 2026 StandLand Private Server. Все права защищены. <br>
-                Сайт не связан с Axlebolt Ltd. Все торговые марки принадлежат их владельцам.
+                &copy; 2026 StandLand Private Server. Halloween Edition.<br>
+                Сайт не связан с Axlebolt Ltd. Все торговые марки принадлежат правообладателям.
             </p>
 
-            <!-- Social Media Links -->
+            <!-- Social Links -->
             <div class="flex items-center space-x-4">
-                <a href="https://t.me/" target="_blank" class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                <a href="https://t.me/" target="_blank" class="w-10 h-10 rounded-xl spooky-panel flex items-center justify-center text-gray-300 hover:text-halloween-orange hover:border-halloween-orange transition-all">
                     <i class="fa-brands fa-telegram text-lg"></i>
                 </a>
-                <a href="https://vk.com/" target="_blank" class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                <a href="https://vk.com/" target="_blank" class="w-10 h-10 rounded-xl spooky-panel flex items-center justify-center text-gray-400 hover:text-halloween-orange hover:border-halloween-orange transition-all">
                     <i class="fa-brands fa-vk text-lg"></i>
                 </a>
-                <a href="https://youtube.com/" target="_blank" class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                <a href="https://youtube.com/" target="_blank" class="w-10 h-10 rounded-xl spooky-panel flex items-center justify-center text-gray-400 hover:text-halloween-orange hover:border-halloween-orange transition-all">
                     <i class="fa-brands fa-youtube text-lg"></i>
                 </a>
             </div>
         </div>
     </footer>
 
-    <!-- Image Lightbox Modal -->
-    <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-brand-orange focus:outline-none">
+    <div id="image-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-halloween-orange text-4xl hover:scale-110 focus:outline-none">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <img id="modal-img" src="" alt="Screenshot Full view" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-white/20">
+        <div class="max-w-5xl w-full flex flex-col items-center">
+            <img id="modal-img" src="" alt="Screenshot Full view" class="max-w-full max-h-[85vh] rounded-2xl shadow-spooky-glow border-2 border-halloween-orange object-contain">
+        </div>
     </div>
 
-    <!-- Client Scripts -->
     <script>
-        // Mobile menu toggle logic
+        // Mobile Menu Navigation Toggle
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -406,14 +467,13 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Close mobile menu on click
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
 
-        // Modal Lightbox functionality
+        // Lightbox Modal Functionality for Screenshots
         const modal = document.getElementById('image-modal');
         const modalImg = document.getElementById('modal-img');
 
@@ -428,20 +488,27 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Close modal on escape key
+        // Close on Escape key press
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
                 closeModal();
             }
         });
 
-        // Navbar background dynamic change on scroll
+        // Close on overlay click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Navbar Scroll Styling
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg', 'bg-brand-dark/95');
+                navbar.classList.add('shadow-spooky-purple', 'bg-halloween-night/95');
             } else {
-                navbar.classList.remove('shadow-lg', 'bg-brand-dark/95');
+                navbar.classList.remove('shadow-spooky-purple', 'bg-halloween-night/95');
             }
         });
     </script>
